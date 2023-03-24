@@ -8,13 +8,13 @@ namespace Password_Generator
 {
     public class CommandLineArgs
     {
-        public bool IsValidLength(int argLength)
+        private bool IsValidLength(int argLength)
         {
             if (argLength != 2) { return false; }
             return true;
         }
 
-        public bool IsDigitsOnly(string arg0)
+        private bool IsDigitsOnly(string arg0)
         {
             foreach (char character in arg0)
             {
@@ -23,7 +23,7 @@ namespace Password_Generator
             return true;
         }
 
-        public bool IsValidLettersOnly(string arg1)
+        private bool IsValidLettersOnly(string arg1)
         {
             var validLetters = "Llds";
 

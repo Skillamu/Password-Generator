@@ -8,42 +8,64 @@ namespace Password_Generator
 {
     public class Generate
     {
-        private Random _random;
+        private Random _random = new Random();
 
-        public Generate(Random random)
+        public string GetRandomPassword(string pattern)
         {
-            _random = random;
+            var password = "";
+            while (pattern.Length >= 1)
+            {
+                var randomIndex = _random.Next(0, pattern.Length);
+                var category = pattern[randomIndex];
+                switch (category)
+                {
+                    case 'l':
+                        password += GetRandomLowerCaseLetter();
+                        break;
+                    case 'L':
+                        password += GetRandomUpperCaseLetter();
+                        break;
+                    case 'd':
+                        password += GetRandomDigit();
+                        break;
+                    default: 
+                        password += GetRandomSpecialChar();
+                        break;
+                }
+                pattern = pattern.Remove(randomIndex, 1);
+            }
+            return password;
         }
 
-        private char GetRandom(char character, int maxNumber)
+        private char GetRandom(char asciiChar, int maxLength)
         {
-            var randomNumber = _random.Next(0, maxNumber);
-            var randomLetter = Convert.ToChar(character + randomNumber);
+            var randomNumber = _random.Next(0, maxLength);
+            var randomLetter = Convert.ToChar(asciiChar + randomNumber);
             return randomLetter;
         }
 
-        public char GetRandomLowerCaseLetter()
+        private char GetRandomLowerCaseLetter()
         {
-            var randomLetter = GetRandom('a', 26);
+            var randomLetter = GetRandom('a', 26); // Gets random ASCII char between a-z
             return randomLetter;
         }
 
-        public char GetRandomUpperCaseLetter()
+        private char GetRandomUpperCaseLetter()
         {
-            var randomLetter = GetRandom('A', 26);
+            var randomLetter = GetRandom('A', 26); // Gets random ASCII char between A-Z
             return randomLetter;
         }
 
-        public int GetRandomDigit()
+        private char GetRandomDigit()
         {
-            var randomDigit = GetRandom('0', 10);
+            var randomDigit = GetRandom('0', 10); // Gets random ASCII char between 0-9
             return randomDigit;
         }
 
-        public char GetRandomSpecialChar()
+        private char GetRandomSpecialChar()
         {
             var specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}∼";
-            var randomSpecialChar = _random.Next(0, specialCharacters.Length);
+            var randomSpecialChar = _random.Next(0, specialCharacters.Length); // Gets random special char from string
             var specialChar = specialCharacters[randomSpecialChar];
             return specialChar;
         }
